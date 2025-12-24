@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Images Extractor</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🖼️ Images Extractor</h1>
+        <p class="subtitle">Images found on this page</p>
+      </header>
+
+      <div class="controls">
+        <button id="refreshBtn" class="btn-primary">Refresh</button>
+        <span id="imageCount" class="count">0 images</span>
+      </div>
+
+      <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <p>Extracting images...</p>
+      </div>
+
+      <div id="error" class="error" style="display: none">
+        <p>Unable to extract images. Please try again.</p>
+      </div>
+
+      <div id="imagesList" class="images-list"></div>
+
+      <div id="emptyState" class="empty-state" style="display: none">
+        <p>No images found on this page.</p>
+      </div>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
