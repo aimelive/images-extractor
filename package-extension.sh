@@ -18,6 +18,7 @@ zip -r images-extractor.zip . \
     -x "*.DS_Store" \
     -x "*package-extension.sh" \
     -x "*.zip" \
+    -x "index.html" \
     -x "*.md"
 
 echo "✅ Package created: images-extractor.zip"

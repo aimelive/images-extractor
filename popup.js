@@ -215,7 +215,8 @@ function createImageCard(img, index) {
   link.target = "_blank";
   link.rel = "noopener noreferrer";
   link.className = "image-link";
-  link.textContent = "Open in new tab";
+  link.textContent =
+    img.src.length > 80 ? img.src.substring(0, 80) + "..." : img.src;
   link.title = img.src;
 
   const details = document.createElement("div");
@@ -229,15 +230,8 @@ function createImageCard(img, index) {
     }
   `;
 
-  const urlText = document.createElement("div");
-  urlText.className = "image-url";
-  urlText.textContent =
-    img.src.length > 60 ? img.src.substring(0, 60) + "..." : img.src;
-  urlText.title = img.src;
-
   info.appendChild(link);
   info.appendChild(details);
-  info.appendChild(urlText);
 
   card.appendChild(previewContainer);
   card.appendChild(info);
