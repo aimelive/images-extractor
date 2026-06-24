@@ -1,4 +1,4 @@
-# 🖼️ Images Extractor - Chrome Extension
+# Images Extractor - Chrome Extension
 
 A powerful Chrome extension that extracts and displays all images from any webpage in a beautiful, easy-to-use interface. Perfect for designers, developers, content creators, and anyone who needs to quickly access images from web pages.
 

@@ -111,8 +111,58 @@ function extractImagesFromPage() {
   }
 
   const images = [];
-  const imgElements = document.querySelectorAll("img");
   const processedUrls = new Set();
+
+  // --- Collect the site's favicon(s) shown in the browser tab ---
+  const favicons = [];
+
+  function addFavicon(src) {
+    if (processedUrls.has(src) || !isValidImageUrl(src)) return null;
+    processedUrls.add(src);
+    const entry = { src: src, alt: "Site icon", width: 0, height: 0, isFavicon: true };
+    favicons.push(entry);
+    return entry;
+  }
+
+  const iconLinks = document.querySelectorAll(
+    'link[rel~="icon"], link[rel="apple-touch-icon"], link[rel="apple-touch-icon-precomposed"], link[rel="mask-icon"], link[rel="fluid-icon"]'
+  );
+
+  iconLinks.forEach((link) => {
+    const href = link.getAttribute("href");
+    if (!href) return;
+
+    let src;
+    try {
+      src = new URL(href, window.location.href).href;
+    } catch (e) {
+      return;
+    }
+
+    const entry = addFavicon(src);
+    if (!entry) return;
+
+    // Parse a declared size such as sizes="32x32"
+    const sizes = link.getAttribute("sizes");
+    if (sizes) {
+      const match = sizes.trim().split(/\s+/)[0].match(/^(\d+)x(\d+)$/i);
+      if (match) {
+        entry.width = parseInt(match[1], 10) || 0;
+        entry.height = parseInt(match[2], 10) || 0;
+      }
+    }
+  });
+
+  // Fallback to /favicon.ico when no icon links are declared
+  if (favicons.length === 0) {
+    try {
+      addFavicon(new URL("/favicon.ico", window.location.origin).href);
+    } catch (e) {
+      // Ignore invalid origins
+    }
+  }
+
+  const imgElements = document.querySelectorAll("img");
 
   imgElements.forEach((img) => {
     let src =
@@ -174,13 +224,26 @@ function extractImagesFromPage() {
     }
   });
 
-  return images;
+  // Site icons first, then page images
+  return favicons.concat(images);
 }
 
 // Create image card element
 function createImageCard(img, index) {
   const card = document.createElement("div");
   card.className = "image-card";
+
+  // --- Preview ---
+  const previewContainer = document.createElement("div");
+  previewContainer.className =
+    "image-preview-container" + (img.isFavicon ? " is-favicon" : "");
+
+  if (img.isFavicon) {
+    const badge = document.createElement("span");
+    badge.className = "fav-badge";
+    badge.textContent = "★ Site icon";
+    previewContainer.appendChild(badge);
+  }
 
   const imgElement = document.createElement("img");
   imgElement.src = img.src;
@@ -189,35 +252,53 @@ function createImageCard(img, index) {
   imgElement.loading = "lazy";
   imgElement.title = "Click to copy image URL to clipboard";
 
-  // Handle click to copy image to clipboard
-  imgElement.addEventListener("click", async () => {
-    await copyImageToClipboard(img.src, card);
+  // Click thumbnail to copy URL
+  imgElement.addEventListener("click", () => {
+    copyImageToClipboard(img.src, card);
   });
 
   // Handle image load error
   imgElement.onerror = function () {
     this.style.display = "none";
+    actions.style.display = "none";
     const errorDiv = document.createElement("div");
     errorDiv.className = "image-error";
     errorDiv.textContent = "Failed to load";
-    card.querySelector(".image-preview-container").appendChild(errorDiv);
+    previewContainer.appendChild(errorDiv);
   };
 
-  const previewContainer = document.createElement("div");
-  previewContainer.className = "image-preview-container";
-  previewContainer.appendChild(imgElement);
+  // Hover action bar: Copy + Open
+  const actions = document.createElement("div");
+  actions.className = "card-actions";
 
+  const copyBtn = document.createElement("button");
+  copyBtn.type = "button";
+  copyBtn.className = "action-btn";
+  copyBtn.innerHTML = "⧉ Copy";
+  copyBtn.title = "Copy image URL";
+  copyBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    copyImageToClipboard(img.src, card);
+  });
+
+  const openBtn = document.createElement("a");
+  openBtn.className = "action-btn";
+  openBtn.href = img.src;
+  openBtn.target = "_blank";
+  openBtn.rel = "noopener noreferrer";
+  openBtn.innerHTML = "↗ Open";
+  openBtn.title = "Open image in a new tab";
+  openBtn.addEventListener("click", (e) => e.stopPropagation());
+
+  actions.appendChild(copyBtn);
+  actions.appendChild(openBtn);
+
+  previewContainer.appendChild(imgElement);
+  previewContainer.appendChild(actions);
+
+  // --- Info ---
   const info = document.createElement("div");
   info.className = "image-info";
-
-  const link = document.createElement("a");
-  link.href = img.src;
-  link.target = "_blank";
-  link.rel = "noopener noreferrer";
-  link.className = "image-link";
-  link.textContent =
-    img.src.length > 80 ? img.src.substring(0, 80) + "..." : img.src;
-  link.title = img.src;
 
   const details = document.createElement("div");
   details.className = "image-details";
@@ -230,13 +311,33 @@ function createImageCard(img, index) {
     }
   `;
 
-  info.appendChild(link);
+  const link = document.createElement("a");
+  link.href = img.src;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.className = "image-link";
+  link.textContent = getImageLabel(img.src);
+  link.title = img.src;
+
   info.appendChild(details);
+  info.appendChild(link);
 
   card.appendChild(previewContainer);
   card.appendChild(info);
 
   return card;
+}
+
+// Derive a short, readable label (filename) from an image URL
+function getImageLabel(url) {
+  try {
+    const { pathname, hostname } = new URL(url);
+    const file = pathname.split("/").filter(Boolean).pop();
+    if (file) return decodeURIComponent(file);
+    return hostname;
+  } catch (e) {
+    return url.length > 40 ? url.slice(0, 40) + "…" : url;
+  }
 }
 
 // Copy image URL to clipboard
