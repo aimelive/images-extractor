@@ -5,58 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Primary SEO -->
-    <title>
-      Images Extractor - Extract & Copy All Images From Any Webpage | Chrome
-      Extension
-    </title>
+    <title>Images Extractor - Extract All Images | Chrome Extension</title>
     <meta
       name="description"
-      content="Images Extractor is a free, privacy-first Chrome extension that instantly finds every image on a webpage, previews them in a clean grid, and copies image URLs with one click. No tracking, no sign-up."
-    />
-    <meta
-      name="keywords"
-      content="images extractor, chrome extension, extract images, copy image url, image downloader, webpage images, image grid, image scraper, free chrome extension, edge extension"
+      content="Free Chrome extension that finds every image on any webpage. Copy the URL, copy the image itself, or download it in one click. No sign-up, no tracking."
     />
     <meta name="author" content="aimelive" />
-    <meta name="robots" content="index, follow" />
+    <meta name="application-name" content="Images Extractor" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1"
+    />
     <meta name="theme-color" content="#2e5e2e" />
-    <link rel="canonical" href="https://aimelive.github.io/images-extractor/" />
+    <link rel="canonical" href="https://images-extractor.netiiv.com/" />
+    <link rel="icon" href="favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" href="icons/icon128.png" />
     <link rel="apple-touch-icon" href="icons/icon128.png" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Images Extractor" />
+    <meta property="og:locale" content="en_US" />
     <meta
       property="og:title"
-      content="Images Extractor - Extract & Copy All Images From Any Webpage"
+      content="Images Extractor - Extract, Copy & Download All Images From Any Webpage"
     />
     <meta
       property="og:description"
-      content="Free, privacy-first Chrome extension that finds every image on a page, shows them in a clean grid, and copies URLs in one click."
+      content="Free, privacy-first Chrome extension that finds every image on a page, shows them in a clean grid, and copies or downloads any of them in one click."
     />
-    <meta
-      property="og:url"
-      content="https://aimelive.github.io/images-extractor/"
-    />
+    <meta property="og:url" content="https://images-extractor.netiiv.com/" />
     <meta
       property="og:image"
-      content="https://aimelive.github.io/images-extractor/icons/icon128.png"
+      content="https://images-extractor.netiiv.com/assets/og-image.jpg"
     />
-    <meta property="og:image:alt" content="Images Extractor logo" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Images Extractor - extract, copy and download every image on any webpage"
+    />
 
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Images Extractor - Chrome Extension" />
     <meta
       name="twitter:description"
-      content="Extract, preview, and copy every image on any webpage. Free, private, one click."
+      content="Extract, preview, copy, and download every image on any webpage. Free, private, one click."
     />
     <meta
       name="twitter:image"
-      content="https://aimelive.github.io/images-extractor/icons/icon128.png"
+      content="https://images-extractor.netiiv.com/assets/og-image.jpg"
+    />
+    <meta
+      name="twitter:image:alt"
+      content="Images Extractor - extract, copy and download every image on any webpage"
     />
 
+    <!-- Structured data: Website -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Images Extractor",
+        "url": "https://images-extractor.netiiv.com/",
+        "inLanguage": "en",
+        "publisher": {
+          "@type": "Person",
+          "name": "aimelive",
+          "url": "https://github.com/aimelive"
+        }
+      }
+    </script>
     <!-- Structured data: Software -->
     <script type="application/ld+json">
       {
@@ -65,10 +86,26 @@
         "name": "Images Extractor",
         "applicationCategory": "BrowserApplication",
         "operatingSystem": "Chrome, Edge, Chromium-based browsers",
-        "description": "A free Chrome extension that extracts and previews all images from the current webpage and copies their URLs with one click.",
-        "softwareVersion": "1.0.0",
-        "url": "https://aimelive.github.io/images-extractor/",
-        "image": "https://aimelive.github.io/images-extractor/icons/icon128.png",
+        "browserRequirements": "Requires a Chromium-based browser with Manifest V3 support",
+        "description": "A free Chrome extension that extracts and previews all images from the current webpage, then copies the URL, copies the image itself, or downloads it with one click.",
+        "softwareVersion": "1.1.0",
+        "datePublished": "2026-07-01",
+        "dateModified": "2026-08-10",
+        "url": "https://images-extractor.netiiv.com/",
+        "image": "https://images-extractor.netiiv.com/assets/og-image.jpg",
+        "downloadUrl": "https://images-extractor.netiiv.com/images-extractor.zip",
+        "installUrl": "https://images-extractor.netiiv.com/#install",
+        "license": "https://github.com/aimelive/images-extractor",
+        "featureList": [
+          "Extract every image on the current webpage, including CSS background images",
+          "Grab the site favicon shown in the browser tab",
+          "Copy any image URL to the clipboard",
+          "Copy the image itself to the clipboard",
+          "Download any image in one click",
+          "Open the full-size image in a new tab",
+          "Runs entirely locally - no data collected"
+        ],
+        "isAccessibleForFree": true,
         "author": {
           "@type": "Person",
           "name": "aimelive",
@@ -96,7 +133,15 @@
             "name": "Can I download images directly?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "The extension copies image URLs to your clipboard. You can open any image in a new tab and download it from there, or paste the URL into a download manager."
+              "text": "Yes. Hover any image card and click the download icon - the image is saved straight to your Downloads folder using its original filename."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I copy the image itself instead of its URL?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. The copy-image action puts the actual picture on your clipboard as a PNG, so you can paste it straight into Figma, Slides, Word, or any chat app. The separate link icon still copies just the URL."
             }
           },
           {
@@ -109,10 +154,18 @@
           },
           {
             "@type": "Question",
-            "name": "Does the extension work on all websites?",
+            "name": "Does it work on every website?",
             "acceptedAnswer": {
               "@type": "Answer",
               "text": "It works on most regular webpages. Browser-internal pages such as chrome:// and extension pages cannot be accessed for security reasons."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "The extension isn't showing images - what now?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Make sure you're on a regular webpage (not a Chrome internal page), then click Refresh or reload the page so dynamically-loaded images appear."
             }
           }
         ]
@@ -137,8 +190,9 @@
         /* Neutrals */
         --ink: #14201a;
         --ink-soft: #3a4a40;
-        --muted: #69786e;
-        --faint: #98a79c;
+        /* Both meet WCAG AA (4.5:1) against the page and card backgrounds */
+        --muted: #5d6b62;
+        --faint: #647268;
         --line: #e6ece1;
         --surface: #ffffff;
         --surface-2: #f6f9f0;
@@ -179,8 +233,15 @@
             transparent 55%
           ),
           var(--bg);
-        background-attachment: fixed;
         -webkit-font-smoothing: antialiased;
+      }
+
+      /* Fixed attachment forces a full repaint on every scroll frame, which is
+         expensive on mobile - only enable it for precise-pointer devices. */
+      @media (pointer: fine) and (min-width: 861px) {
+        body {
+          background-attachment: fixed;
+        }
       }
 
       a {
@@ -459,8 +520,17 @@
         overflow: hidden;
         background: #fff;
       }
+      /* Thumbs hold real extracted images; the gradient stays as the fallback
+         layer behind them if a photo is slow or fails to load. */
       .mock-thumb {
+        position: relative;
         aspect-ratio: 1;
+        overflow: hidden;
+      }
+      .mock-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
       .mt1 {
         background: linear-gradient(135deg, #cfe6a6, #8fb84f);
@@ -479,6 +549,67 @@
       }
       .mt6 {
         background: linear-gradient(135deg, #efb7b7, #d46f6f);
+      }
+      /* Favicon tile - mirrors the "site icon" card in the real popup */
+      .mock-thumb.is-icon {
+        display: grid;
+        place-items: center;
+        background:
+          radial-gradient(
+            circle at 50% 42%,
+            rgba(112, 160, 48, 0.22) 0%,
+            transparent 62%
+          ),
+          linear-gradient(135deg, #f3f7ea 0%, #e4ecd6 100%);
+      }
+      .mock-thumb.is-icon img {
+        width: 46%;
+        height: auto;
+        object-fit: contain;
+        border-radius: 22%;
+        filter: drop-shadow(0 6px 12px rgba(28, 40, 30, 0.22));
+      }
+      .mock-badge {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        z-index: 2;
+        font-size: 9px;
+        font-weight: 800;
+        color: #fff;
+        background: var(--brand-gradient);
+        padding: 2px 7px;
+        border-radius: 999px;
+        box-shadow: 0 3px 8px rgba(46, 94, 46, 0.4);
+      }
+      /* Static preview of the popup's hover action bar */
+      .mock-actions {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 4px;
+        padding: 5px;
+        background: linear-gradient(
+          to top,
+          rgba(20, 32, 26, 0.82) 0%,
+          rgba(20, 32, 26, 0) 100%
+        );
+      }
+      .mock-actions span {
+        height: 18px;
+        border-radius: 5px;
+        background: rgba(255, 255, 255, 0.95);
+        color: var(--brand-solid);
+        display: grid;
+        place-items: center;
+      }
+      .mock-actions svg {
+        width: 11px;
+        height: 11px;
+        display: block;
       }
       .mock-tile .lbl {
         display: flex;
@@ -547,15 +678,44 @@
         box-shadow: 0 18px 38px rgba(46, 94, 46, 0.14);
         border-color: rgba(112, 160, 48, 0.32);
       }
+      .i-sprite {
+        display: none;
+      }
       .ico {
         width: 48px;
         height: 48px;
         border-radius: 13px;
         display: grid;
         place-items: center;
-        font-size: 23px;
+        color: var(--brand-solid);
         background: rgba(112, 160, 48, 0.13);
         margin-bottom: 16px;
+        transition: color 0.25s ease;
+      }
+      /* Stroke properties are inheritable, so they reach the <use> shadow tree */
+      .ico svg,
+      svg.i-inline {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.9;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .ico svg {
+        width: 24px;
+        height: 24px;
+        display: block;
+      }
+      /* Sits in a run of text, so it scales and baselines with the type */
+      svg.i-inline {
+        width: 1.05em;
+        height: 1.05em;
+        vertical-align: -0.17em;
+        stroke-width: 2;
+      }
+      .card:hover .ico {
+        background: var(--brand-gradient);
+        color: #fff;
       }
       .card h3 {
         font-size: 1.18rem;
@@ -602,7 +762,7 @@
         background: var(--brand-gradient);
         box-shadow: 0 6px 14px rgba(46, 94, 46, 0.3);
       }
-      .step h4 {
+      .step h3 {
         font-size: 1.05rem;
         margin-bottom: 4px;
       }
@@ -863,6 +1023,24 @@
       document.documentElement.className = "js";
     </script>
 
+    <svg class="i-sprite" aria-hidden="true" focusable="false">
+      <symbol id="i-image-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.6"/><path d="M20.2 20.2 15.6 15.6"/><path d="M7.4 13.1l2.3-2.5 1.7 1.8 1.3-1.4 2 2.1"/></symbol>
+      <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></symbol>
+      <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.07 0l2.12-2.12a5 5 0 0 0-7.07-7.07l-1.06 1.06"/><path d="M14 11a5 5 0 0 0-7.07 0l-2.12 2.12a5 5 0 0 0 7.07 7.07l1.06-1.06"/></symbol>
+      <symbol id="i-picture" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="8.5" cy="9.5" r="1.6"/><path d="M21 16.5l-4.6-4.6a1.6 1.6 0 0 0-2.3 0L4 20"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v11"/><path d="M7.5 10.5 12 15l4.5-4.5"/><path d="M4 18.5v.5A2 2 0 0 0 6 21h12a2 2 0 0 0 2-2v-.5"/></symbol>
+      <symbol id="i-dimensions" viewBox="0 0 24 24"><path d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8"/><path d="M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8"/><path d="M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16"/><path d="M8 20H5.5A1.5 1.5 0 0 1 4 18.5V16"/><path d="M8.5 12h7"/></symbol>
+      <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="M20 4l-8.5 8.5"/><path d="M18 14.5V18a2.5 2.5 0 0 1-2.5 2.5H6A2.5 2.5 0 0 1 3.5 18V8.5A2.5 2.5 0 0 1 6 6h3.5"/></symbol>
+      <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.6l2.6 5.28 5.83.85-4.22 4.11.99 5.81L12 16.91l-5.2 2.74.99-5.81-4.22-4.11 5.83-.85z"/></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.3" width="15" height="10.2" rx="2.5"/><path d="M8.4 10.3V7.7a3.6 3.6 0 0 1 7.2 0v2.6"/><path d="M12 14.3v2.3"/></symbol>
+      <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 3.5a8.5 8.5 0 1 0 0 17c1.16 0 1.8-.78 1.8-1.72 0-.98-.7-1.5-.7-2.4 0-.9.72-1.6 1.72-1.6h1.53A4.15 4.15 0 0 0 20.5 10.6C20.5 6.55 16.7 3.5 12 3.5z"/><circle cx="8.2" cy="9.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="12" cy="7.6" r="1.1" fill="currentColor" stroke="none"/><circle cx="15.6" cy="9.5" r="1.1" fill="currentColor" stroke="none"/></symbol>
+      <symbol id="i-code" viewBox="0 0 24 24"><path d="M8.6 8.4 4.6 12l4 3.6"/><path d="M15.4 8.4 19.4 12l-4 3.6"/><path d="M13.7 5.4l-3.4 13.2"/></symbol>
+      <symbol id="i-pen" viewBox="0 0 24 24"><path d="M16.9 4.6a2.3 2.3 0 0 1 3.25 3.25L8.6 19.4l-4.6 1 1-4.6z"/><path d="M15.2 6.3l3.25 3.25"/></symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24"><path d="M8.9 3.6h6.2"/><path d="M10.4 3.6v5.9L7.3 14.1h9.4l-3.1-4.6V3.6"/><path d="M12 14.1v6.3"/></symbol>
+      <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M4.4 19.6c-.6-8.2 5.3-14.4 15.2-15 .6 9.9-5.6 15.7-15.2 15z"/><path d="M4.9 19.1C8.3 15.6 11.9 12.6 16 10.6"/></symbol>
+      <symbol id="i-flask" viewBox="0 0 24 24"><path d="M9.4 3.5h5.2"/><path d="M10.6 3.5v5.3l-4.95 8.6A2 2 0 0 0 7.38 20.5h9.24a2 2 0 0 0 1.73-3.1L13.4 8.8V3.5"/><path d="M7.9 14.4h8.2"/></symbol>
+    </svg>
+
     <!-- ===== Nav ===== -->
     <nav class="nav">
       <div class="wrap nav-inner">
@@ -879,6 +1057,7 @@
           <a href="#features">Features</a>
           <a href="#install">Install</a>
           <a href="#usage">How it works</a>
+          <a href="/compare/">Compare</a>
           <a href="#faq">FAQ</a>
         </div>
         <div class="nav-cta">
@@ -891,7 +1070,7 @@
           >
           <a
             class="btn btn-primary btn-sm"
-            href="https://github.com/aimelive/images-extractor/raw/refs/heads/main/images-extractor.zip"
+            href="https://images-extractor.netiiv.com/images-extractor.zip"
             >Download</a
           >
         </div>
@@ -906,18 +1085,19 @@
             ><span class="dot"></span> Free · Manifest V3 · No tracking</span
           >
           <h1>
-            Grab <span class="grad">every image</span> on any webpage -
+            Extract <span class="grad">every image</span> on any webpage -
             instantly.
           </h1>
           <p class="lead">
-            Images Extractor scans the page you're on, lays out every image in a
-            clean grid, and copies any URL with a single click. Perfect for
-            designers, developers, and content creators.
+            Images Extractor scans the page you're on and lays out every image
+            in a clean grid. Copy the URL, copy the image itself, or download it
+            - all in a single click. Perfect for designers, developers, and
+            content creators.
           </p>
           <div class="hero-actions">
             <a
               class="btn btn-primary"
-              href="https://github.com/aimelive/images-extractor/raw/refs/heads/main/images-extractor.zip"
+              href="https://images-extractor.netiiv.com/images-extractor.zip"
             >
               ⬇ Download Extension
             </a>
@@ -930,7 +1110,11 @@
           </div>
         </div>
 
-        <!-- Browser / popup mockup -->
+        <!--
+          Browser / popup mockup.
+          Grid photos are self-hosted Unsplash images (Unsplash Licence) so the
+          page issues no third-party requests - see assets/hero/CREDITS.txt.
+        -->
         <div class="reveal" aria-hidden="true">
           <div class="mock">
             <div class="mock-bar">
@@ -943,37 +1127,149 @@
             </div>
             <div class="mock-grid">
               <div class="mock-tile">
-                <div class="mock-thumb mt1"></div>
+                <div class="mock-thumb mt1 is-icon">
+                  <span class="mock-badge">★ Site icon</span>
+                  <img
+                    src="icons/icon128.png"
+                    alt=""
+                    width="128"
+                    height="128"
+                  />
+                </div>
                 <div class="lbl">
-                  <span class="n">#1</span><span class="d">1280×720</span>
+                  <span class="n">#1</span><span class="d">128×128</span>
                 </div>
               </div>
               <div class="mock-tile">
-                <div class="mock-thumb mt2"></div>
+                <div class="mock-thumb mt2">
+                  <img
+                    src="assets/hero/shot-2.webp"
+                    alt=""
+                    width="320"
+                    height="320"
+                    decoding="async"
+                  />
+                </div>
                 <div class="lbl">
-                  <span class="n">#2</span><span class="d">800×800</span>
+                  <span class="n">#2</span><span class="d">1280×720</span>
                 </div>
               </div>
               <div class="mock-tile">
-                <div class="mock-thumb mt3"></div>
+                <div class="mock-thumb mt3">
+                  <img
+                    src="assets/hero/shot-3.webp"
+                    alt=""
+                    width="320"
+                    height="320"
+                    decoding="async"
+                  />
+                </div>
                 <div class="lbl">
-                  <span class="n">#3</span><span class="d">640×480</span>
+                  <span class="n">#3</span><span class="d">800×800</span>
                 </div>
               </div>
               <div class="mock-tile">
-                <div class="mock-thumb mt4"></div>
+                <div class="mock-thumb mt4">
+                  <img
+                    src="assets/hero/shot-4.webp"
+                    alt=""
+                    width="320"
+                    height="320"
+                    decoding="async"
+                  />
+                </div>
                 <div class="lbl">
-                  <span class="n">#4</span><span class="d">512×512</span>
+                  <span class="n">#4</span><span class="d">640×480</span>
                 </div>
               </div>
               <div class="mock-tile">
-                <div class="mock-thumb mt5"></div>
+                <div class="mock-thumb mt5">
+                  <img
+                    src="assets/hero/shot-5.webp"
+                    alt=""
+                    width="320"
+                    height="320"
+                    decoding="async"
+                  />
+                  <!-- The four card actions, as they appear on hover -->
+                  <div class="mock-actions">
+                    <span
+                      ><svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path
+                          d="M10 13a5 5 0 0 0 7.07 0l2.12-2.12a5 5 0 0 0-7.07-7.07l-1.06 1.06"
+                        />
+                        <path
+                          d="M14 11a5 5 0 0 0-7.07 0l-2.12 2.12a5 5 0 0 0 7.07 7.07l1.06-1.06"
+                        /></svg
+                    ></span>
+                    <span
+                      ><svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <rect x="3" y="4" width="18" height="16" rx="3" />
+                        <circle cx="8.5" cy="9.5" r="1.6" />
+                        <path
+                          d="M21 16.5l-4.6-4.6a1.6 1.6 0 0 0-2.3 0L4 20"
+                        /></svg
+                    ></span>
+                    <span
+                      ><svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M12 3v11" />
+                        <path d="M7.5 10.5 12 15l4.5-4.5" />
+                        <path
+                          d="M4 18.5v.5A2 2 0 0 0 6 21h12a2 2 0 0 0 2-2v-.5"
+                        /></svg
+                    ></span>
+                    <span
+                      ><svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M14 4h6v6" />
+                        <path d="M20 4l-8.5 8.5" />
+                        <path
+                          d="M18 14.5V18a2.5 2.5 0 0 1-2.5 2.5H6A2.5 2.5 0 0 1 3.5 18V8.5A2.5 2.5 0 0 1 6 6h3.5"
+                        /></svg
+                    ></span>
+                  </div>
+                </div>
                 <div class="lbl">
                   <span class="n">#5</span><span class="d">1920×1080</span>
                 </div>
               </div>
               <div class="mock-tile">
-                <div class="mock-thumb mt6"></div>
+                <div class="mock-thumb mt6">
+                  <img
+                    src="assets/hero/shot-6.webp"
+                    alt=""
+                    width="320"
+                    height="320"
+                    decoding="async"
+                  />
+                </div>
                 <div class="lbl">
                   <span class="n">#6</span><span class="d">300×300</span>
                 </div>
@@ -998,7 +1294,7 @@
           </div>
           <div class="features">
             <div class="card reveal">
-              <div class="ico">🔍</div>
+              <div class="ico"><svg aria-hidden="true" focusable="false"><use href="#i-image-search"/></svg></div>
               <h3>Extract all images</h3>
               <p>
                 Automatically finds every image on the current page, including
@@ -1006,7 +1302,7 @@
               </p>
             </div>
             <div class="card reveal">
-              <div class="ico">🖼️</div>
+              <div class="ico"><svg aria-hidden="true" focusable="false"><use href="#i-grid"/></svg></div>
               <h3>Visual grid view</h3>
               <p>
                 A clean, responsive grid with live previews so you can scan the
@@ -1014,7 +1310,7 @@
               </p>
             </div>
             <div class="card reveal">
-              <div class="ico">📋</div>
+              <div class="ico"><svg aria-hidden="true" focusable="false"><use href="#i-link"/></svg></div>
               <h3>One-click copy</h3>
               <p>
                 Click any preview to instantly copy its URL to your clipboard,
@@ -1022,7 +1318,23 @@
               </p>
             </div>
             <div class="card reveal">
-              <div class="ico">📊</div>
+              <div class="ico"><svg aria-hidden="true" focusable="false"><use href="#i-picture"/></svg></div>
+              <h3>Copy the image itself</h3>
+              <p>
+                Put the actual picture on your clipboard as a PNG and paste it
+                straight into Figma, Slides, or a chat - no URL round-trip.
+              </p>
+            </div>
+            <div class="card reveal">
+              <div class="ico"><svg aria-hidden="true" focusable="false"><use href="#i-download"/></svg></div>
+              <h3>Download in one click</h3>
+              <p>
+                Save any image to your Downloads folder with its original
+                filename - no right-click, no new tab.
+              </p>
+            </div>
+            <div class="card reveal">
+              <div class="ico"><svg aria-hidden="true" focusable="false"><use href="#i-dimensions"/></svg></div>
               <h3>Image details</h3>
               <p>
                 See dimensions and the full source URL for each image at a
@@ -1030,7 +1342,7 @@
               </p>
             </div>
             <div class="card reveal">
-              <div class="ico">🔗</div>
+              <div class="ico"><svg aria-hidden="true" focusable="false"><use href="#i-external"/></svg></div>
               <h3>Open in new tab</h3>
               <p>
                 Jump straight to the full-size image in a new tab to view or
@@ -1038,7 +1350,7 @@
               </p>
             </div>
             <div class="card reveal">
-              <div class="ico">⭐</div>
+              <div class="ico"><svg aria-hidden="true" focusable="false"><use href="#i-star"/></svg></div>
               <h3>Grabs the site icon</h3>
               <p>
                 Pulls the website's favicon - the icon shown in the browser tab
@@ -1046,7 +1358,7 @@
               </p>
             </div>
             <div class="card reveal">
-              <div class="ico">🔒</div>
+              <div class="ico"><svg aria-hidden="true" focusable="false"><use href="#i-lock"/></svg></div>
               <h3>Private by design</h3>
               <p>
                 Runs entirely in your browser. Nothing is collected, stored, or
@@ -1057,7 +1369,6 @@
         </div>
       </section>
 
-      <!-- ===== Install ===== -->
       <section id="install" class="sec">
         <div class="wrap">
           <div class="sec-head reveal">
@@ -1070,11 +1381,11 @@
           <div class="steps">
             <div class="step reveal">
               <div class="num">1</div>
-              <h4>Download &amp; unzip</h4>
+              <h3>Download &amp; unzip</h3>
               <p>
                 Grab the
                 <a
-                  href="https://github.com/aimelive/images-extractor/raw/refs/heads/main/images-extractor.zip"
+                  href="https://images-extractor.netiiv.com/images-extractor.zip"
                   >ZIP file</a
                 >
                 and extract it to a folder on your computer.
@@ -1082,7 +1393,7 @@
             </div>
             <div class="step reveal">
               <div class="num">2</div>
-              <h4>Open extensions</h4>
+              <h3>Open extensions</h3>
               <p>
                 Navigate to <code>chrome://extensions/</code> (or Menu →
                 Extensions → Manage Extensions).
@@ -1090,7 +1401,7 @@
             </div>
             <div class="step reveal">
               <div class="num">3</div>
-              <h4>Enable Developer Mode</h4>
+              <h3>Enable Developer Mode</h3>
               <p>
                 Toggle <strong>Developer mode</strong> in the top-right corner
                 of the page.
@@ -1098,7 +1409,7 @@
             </div>
             <div class="step reveal">
               <div class="num">4</div>
-              <h4>Load unpacked</h4>
+              <h3>Load unpacked</h3>
               <p>
                 Click <strong>Load unpacked</strong> and select the extracted
                 extension folder.
@@ -1106,15 +1417,18 @@
             </div>
             <div class="step reveal">
               <div class="num">5</div>
-              <h4>Pin it</h4>
+              <h3>Pin it</h3>
               <p>
                 Click the puzzle-piece icon, find Images Extractor, and hit the
-                📌 pin to keep it handy.
+                <svg class="i-inline" aria-hidden="true" focusable="false">
+                  <use href="#i-pin" /></svg
+                >
+                pin to keep it handy.
               </p>
             </div>
             <div class="step reveal">
               <div class="num">6</div>
-              <h4>You're set</h4>
+              <h3>You're set</h3>
               <p>
                 Open any webpage and click the icon to start extracting images
                 right away.
@@ -1124,7 +1438,6 @@
         </div>
       </section>
 
-      <!-- ===== Usage ===== -->
       <section id="usage" class="sec">
         <div class="wrap">
           <div class="sec-head reveal">
@@ -1135,14 +1448,14 @@
           <div class="steps">
             <div class="step reveal">
               <div class="num">1</div>
-              <h4>Open the popup</h4>
+              <h3>Open the popup</h3>
               <p>
                 Click the Images Extractor icon in your toolbar on any webpage.
               </p>
             </div>
             <div class="step reveal">
               <div class="num">2</div>
-              <h4>Browse the grid</h4>
+              <h3>Browse the grid</h3>
               <p>
                 Every image appears with a preview, an index, and its
                 dimensions.
@@ -1150,15 +1463,17 @@
             </div>
             <div class="step reveal">
               <div class="num">3</div>
-              <h4>Copy a URL</h4>
+              <h3>Copy, download, or open</h3>
               <p>
-                Click any preview - you'll see a
-                <strong>“✓ URL copied!”</strong> confirmation.
+                Click a preview to copy its URL, or hover the card for four
+                actions: <strong>copy URL</strong>,
+                <strong>copy image</strong>, <strong>download</strong>, and
+                <strong>open in a new tab</strong>.
               </p>
             </div>
             <div class="step reveal">
               <div class="num">4</div>
-              <h4>Refresh anytime</h4>
+              <h3>Refresh anytime</h3>
               <p>
                 Hit <strong>Refresh</strong> to re-scan after the page loads
                 more content.
@@ -1168,7 +1483,6 @@
         </div>
       </section>
 
-      <!-- ===== Use cases ===== -->
       <section id="usecases" class="sec">
         <div class="wrap">
           <div class="sec-head reveal">
@@ -1177,7 +1491,7 @@
           </div>
           <div class="features">
             <div class="card reveal">
-              <div class="ico">🎨</div>
+              <div class="ico"><svg aria-hidden="true" focusable="false"><use href="#i-palette"/></svg></div>
               <h3>Designers</h3>
               <p>
                 Pull images from inspiration sites and portfolios, and collect
@@ -1185,7 +1499,7 @@
               </p>
             </div>
             <div class="card reveal">
-              <div class="ico">💻</div>
+              <div class="ico"><svg aria-hidden="true" focusable="false"><use href="#i-code"/></svg></div>
               <h3>Developers</h3>
               <p>
                 Debug image loading, audit dimensions, and extract sources for
@@ -1193,7 +1507,7 @@
               </p>
             </div>
             <div class="card reveal">
-              <div class="ico">✍️</div>
+              <div class="ico"><svg aria-hidden="true" focusable="false"><use href="#i-pen"/></svg></div>
               <h3>Content creators</h3>
               <p>
                 Find and save visuals for blog posts, articles, and projects in
@@ -1201,7 +1515,7 @@
               </p>
             </div>
             <div class="card reveal">
-              <div class="ico">🔬</div>
+              <div class="ico"><svg aria-hidden="true" focusable="false"><use href="#i-flask"/></svg></div>
               <h3>Researchers</h3>
               <p>
                 Document and cite image sources, and analyze the visual content
@@ -1218,6 +1532,12 @@
           <div class="sec-head reveal">
             <div class="eyebrow">Technical details</div>
             <h2>Minimal permissions, maximum transparency</h2>
+            <p>
+              Images Extractor never asks for access to all your websites.
+              <a href="/compare/"
+                >See how that compares to other image extensions →</a
+              >
+            </p>
           </div>
           <div class="tech-cols">
             <div class="panel reveal">
@@ -1273,6 +1593,14 @@
                     <td>Read images from the page</td>
                   </tr>
                   <tr>
+                    <td><code>downloads</code></td>
+                    <td>Save an image to your Downloads folder</td>
+                  </tr>
+                  <tr>
+                    <td><code>clipboardWrite</code></td>
+                    <td>Copy a URL or image to your clipboard</td>
+                  </tr>
+                  <tr>
                     <td>Chrome</td>
                     <td class="ok">✓ Latest</td>
                   </tr>
@@ -1316,9 +1644,25 @@
                 Can I download images directly?<span class="chev">+</span>
               </summary>
               <p>
-                The extension copies image URLs to your clipboard. You can open
-                any image in a new tab and download it from there, or paste the
-                URL into a download manager.
+                Yes. Hover any image card and click the download icon - the
+                image is saved straight to your Downloads folder using its
+                original filename. No new tab, no right-click.
+              </p>
+            </details>
+            <details class="reveal">
+              <summary>
+                Can I copy the image itself instead of its URL?<span class="chev"
+                  >+</span
+                >
+              </summary>
+              <p>
+                Yes. The copy-image action puts the actual picture on your
+                clipboard as a PNG, so you can paste it straight into Figma,
+                Slides, Word, or any chat app. The separate link icon still
+                copies just the URL. A handful of images are locked down by their
+                host and can't be read - for those you'll see a short
+                <strong>“✗ Can't copy this image”</strong> notice, and download
+                or open still works.
               </p>
             </details>
             <details class="reveal">
@@ -1372,7 +1716,7 @@
             </p>
             <a
               class="btn btn-primary"
-              href="https://github.com/aimelive/images-extractor/raw/refs/heads/main/images-extractor.zip"
+              href="https://images-extractor.netiiv.com/images-extractor.zip"
               >⬇ Download Extension</a
             >
           </div>
@@ -1396,6 +1740,8 @@
           <a href="#features">Features</a>
           <a href="#install">Install</a>
           <a href="#faq">FAQ</a>
+          <a href="/compare/">Compare</a>
+          <a href="/privacy/">Privacy</a>
           <a
             href="https://github.com/aimelive/images-extractor"
             target="_blank"
@@ -1408,7 +1754,11 @@
         </div>
       </div>
       <p class="foot-note">
-        Made with 🌿 by
+        Made with
+        <svg class="i-inline" aria-hidden="true" focusable="false">
+          <use href="#i-leaf" /></svg
+        >
+        by
         <a href="https://github.com/aimelive" target="_blank" rel="noopener"
           >aimelive</a
         >

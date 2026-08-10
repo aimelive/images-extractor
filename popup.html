@@ -25,7 +25,7 @@
       <!-- Toolbar -->
       <div class="toolbar">
         <span id="imageCount" class="count">0 images</span>
-        <span class="hint">Click a thumbnail to copy its URL</span>
+        <span class="hint">Click to copy the URL · hover for more actions</span>
       </div>
 
       <!-- Loading (skeleton) -->
@@ -43,12 +43,20 @@
         <p>Unable to extract images. Please try again.</p>
       </div>
 
-      <!-- Results -->
-      <div id="imagesList" class="images-list"></div>
+      <!-- Results (the wrapper scrolls; the grid inside keeps its natural height) -->
+      <div class="images-scroll">
+        <div id="imagesList" class="images-list"></div>
+      </div>
 
       <!-- Empty -->
       <div id="emptyState" class="status status--empty" style="display: none">
-        <div class="status__icon">🖼️</div>
+        <div class="status__icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <rect x="3" y="4" width="18" height="16" rx="3" />
+            <circle cx="8.5" cy="9.5" r="1.6" />
+            <path d="M21 16.5l-4.6-4.6a1.6 1.6 0 0 0-2.3 0L4 20" />
+          </svg>
+        </div>
         <p>No images found on this page.</p>
       </div>
     </div>

@@ -18,7 +18,17 @@ zip -r images-extractor.zip . \
     -x "*.DS_Store" \
     -x "*package-extension.sh" \
     -x "*.zip" \
+    -x "*.claude*" \
     -x "index.html" \
+    -x "404.html" \
+    -x "assets/*" \
+    -x "privacy/*" \
+    -x "compare/*" \
+    -x "CNAME" \
+    -x "favicon.ico" \
+    -x "robots.txt" \
+    -x "sitemap.xml" \
+    -x "update-seo-dates.sh" \
     -x "*.md"
 
 echo "✅ Package created: images-extractor.zip"

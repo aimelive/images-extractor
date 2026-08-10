@@ -1,0 +1,920 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Image Extractor Extension Permissions, Compared (2026)</title>
+    <meta
+      name="description"
+      content="What site access do image downloader Chrome extensions really request? A source-linked comparison read from their published manifests - not guessed."
+    />
+    <meta name="author" content="aimelive" />
+    <meta
+      name="robots"
+      content="index, follow, max-snippet:-1, max-image-preview:large"
+    />
+    <meta name="theme-color" content="#2e5e2e" />
+    <link rel="canonical" href="https://images-extractor.netiiv.com/compare/" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" href="/icons/icon128.png" />
+    <link rel="apple-touch-icon" href="/icons/icon128.png" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Images Extractor" />
+    <meta property="og:locale" content="en_US" />
+    <meta
+      property="og:title"
+      content="Image Extractor Extension Permissions, Compared (2026)"
+    />
+    <meta
+      property="og:description"
+      content="A verified, source-linked comparison of what site access image downloader Chrome extensions request - read from their published manifests."
+    />
+    <meta
+      property="og:url"
+      content="https://images-extractor.netiiv.com/compare/"
+    />
+    <meta
+      property="og:image"
+      content="https://images-extractor.netiiv.com/assets/og-image.jpg"
+    />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:image"
+      content="https://images-extractor.netiiv.com/assets/og-image.jpg"
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Images Extractor",
+            "item": "https://images-extractor.netiiv.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Permissions Compared",
+            "item": "https://images-extractor.netiiv.com/compare/"
+          }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Image Extractor Extension Permissions, Compared",
+        "description": "A verified comparison of the permission footprints requested by image extraction and download extensions for Chrome, read from published manifests.",
+        "url": "https://images-extractor.netiiv.com/compare/",
+        "inLanguage": "en",
+        "datePublished": "2026-08-10",
+        "dateModified": "2026-08-10",
+        "image": "https://images-extractor.netiiv.com/assets/og-image.jpg",
+        "author": {
+          "@type": "Person",
+          "name": "aimelive",
+          "url": "https://github.com/aimelive"
+        },
+        "publisher": {
+          "@type": "Person",
+          "name": "aimelive",
+          "url": "https://github.com/aimelive"
+        },
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "Images Extractor",
+          "url": "https://images-extractor.netiiv.com/"
+        }
+      }
+    </script>
+
+    <style>
+      :root {
+        --brand-gradient: linear-gradient(
+          135deg,
+          #2e5e2e 0%,
+          #5c8c28 55%,
+          #70a030 100%
+        );
+        --brand-solid: #2e5e2e;
+        --brand-solid-hover: #214521;
+        --lime: #70a030;
+        --ink: #14201a;
+        --ink-soft: #3a4a40;
+        --muted: #5d6b62;
+        --faint: #647268;
+        --line: #e6ece1;
+        --surface: #ffffff;
+        --surface-2: #f6f9f0;
+        --bg: #f3f6ec;
+        --warn: #9a6a1f;
+        --warn-soft: #fdf3e0;
+        --shadow-card:
+          0 1px 2px rgba(20, 32, 26, 0.04), 0 10px 28px rgba(20, 32, 26, 0.07);
+        --radius: 18px;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+          Cantarell, sans-serif;
+        line-height: 1.7;
+        color: var(--ink);
+        background:
+          radial-gradient(
+            900px 520px at 88% -8%,
+            rgba(159, 193, 91, 0.22) 0%,
+            transparent 60%
+          ),
+          var(--bg);
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: var(--brand-solid);
+        font-weight: 600;
+        text-decoration: none;
+      }
+      a:hover {
+        color: var(--brand-solid-hover);
+        text-decoration: underline;
+      }
+      .wrap {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(243, 246, 236, 0.85);
+        backdrop-filter: saturate(160%) blur(12px);
+        border-bottom: 1px solid var(--line);
+      }
+      .nav-inner {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 0 24px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        font-weight: 800;
+        color: var(--ink);
+      }
+      .brand:hover {
+        text-decoration: none;
+      }
+      .brand img {
+        width: 32px;
+        height: 32px;
+        border-radius: 9px;
+        display: block;
+        box-shadow: 0 4px 10px rgba(46, 94, 46, 0.22);
+      }
+      .brand span {
+        font-size: 17px;
+        letter-spacing: -0.02em;
+      }
+      .nav a.back {
+        font-size: 14.5px;
+        color: var(--ink-soft);
+      }
+
+      .crumbs {
+        padding: 26px 0 0;
+        font-size: 13.5px;
+        color: var(--faint);
+      }
+      .crumbs span {
+        margin: 0 8px;
+      }
+
+      header.page {
+        padding: 10px 0 34px;
+      }
+      .eyebrow {
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--lime);
+      }
+      h1 {
+        font-size: clamp(2rem, 4.4vw, 2.7rem);
+        letter-spacing: -0.025em;
+        line-height: 1.14;
+        margin: 8px 0 14px;
+      }
+      .lede {
+        font-size: 1.12rem;
+        color: var(--ink-soft);
+        max-width: 680px;
+      }
+      .updated {
+        margin-top: 18px;
+        display: inline-block;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--brand-solid);
+        background: rgba(112, 160, 48, 0.13);
+        border: 1px solid rgba(112, 160, 48, 0.28);
+        padding: 5px 13px;
+        border-radius: 999px;
+      }
+
+      .tldr {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-left: 4px solid var(--lime);
+        border-radius: var(--radius);
+        padding: 24px 26px;
+        box-shadow: var(--shadow-card);
+        margin-bottom: 42px;
+      }
+      .tldr h2 {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+      }
+      .tldr ul {
+        margin: 0;
+        padding-left: 22px;
+        color: var(--ink-soft);
+      }
+      .tldr li {
+        margin: 7px 0;
+      }
+
+      section {
+        margin-bottom: 42px;
+      }
+      h2 {
+        font-size: 1.44rem;
+        letter-spacing: -0.015em;
+        margin-bottom: 12px;
+      }
+      h3 {
+        font-size: 1.08rem;
+        margin: 24px 0 6px;
+      }
+      p {
+        color: var(--ink-soft);
+        margin-bottom: 14px;
+      }
+      ul,
+      ol {
+        color: var(--ink-soft);
+        padding-left: 22px;
+        margin-bottom: 14px;
+      }
+      li {
+        margin: 7px 0;
+      }
+      code {
+        background: var(--surface-2);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 2px 7px;
+        font-family: "Monaco", "Menlo", monospace;
+        font-size: 0.84em;
+        color: var(--brand-solid-hover);
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      blockquote {
+        border-left: 3px solid var(--line);
+        padding: 4px 0 4px 18px;
+        margin: 0 0 14px;
+        color: var(--muted);
+        font-style: italic;
+      }
+
+      .panel {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-card);
+        overflow-x: auto;
+        margin-bottom: 16px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 720px;
+      }
+      th,
+      td {
+        padding: 13px 16px;
+        text-align: left;
+        border-bottom: 1px solid var(--line);
+        font-size: 0.92rem;
+        vertical-align: top;
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      th {
+        background: var(--surface-2);
+        font-weight: 700;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--ink);
+      }
+      tbody tr.self {
+        background: rgba(112, 160, 48, 0.07);
+      }
+      tbody tr.self td {
+        font-weight: 500;
+      }
+      .tag {
+        display: inline-block;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+        padding: 2px 8px;
+        border-radius: 999px;
+        white-space: nowrap;
+      }
+      .tag-narrow {
+        color: #26571f;
+        background: rgba(112, 160, 48, 0.18);
+      }
+      .tag-broad {
+        color: var(--warn);
+        background: var(--warn-soft);
+      }
+      .tag-unknown {
+        color: var(--faint);
+        background: var(--surface-2);
+        border: 1px solid var(--line);
+      }
+      .note {
+        font-size: 0.86rem;
+        color: var(--faint);
+        margin-bottom: 30px;
+      }
+
+      .fair {
+        background: var(--warn-soft);
+        border: 1px solid #f0dfbd;
+        border-radius: var(--radius);
+        padding: 22px 24px;
+        margin-bottom: 20px;
+      }
+      .fair h2 {
+        font-size: 1.15rem;
+        margin-bottom: 8px;
+        color: #7a5316;
+      }
+      .fair p {
+        color: #6b4a17;
+        margin-bottom: 10px;
+      }
+      .fair p:last-child {
+        margin-bottom: 0;
+      }
+
+      .cta {
+        text-align: center;
+        color: #fff;
+        background: var(--brand-gradient);
+        border-radius: 22px;
+        padding: 42px 28px;
+        box-shadow: 0 18px 48px rgba(46, 94, 46, 0.3);
+      }
+      .cta h2 {
+        color: #fff;
+      }
+      .cta p {
+        color: rgba(255, 255, 255, 0.94);
+        max-width: 460px;
+        margin: 8px auto 22px;
+      }
+      .cta a {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        background: #fff;
+        color: var(--brand-solid-hover);
+        font-weight: 700;
+        padding: 13px 24px;
+        border-radius: 12px;
+        text-decoration: none;
+      }
+      .cta a:hover {
+        text-decoration: none;
+        transform: translateY(-2px);
+      }
+
+      footer {
+        border-top: 1px solid var(--line);
+        margin-top: 70px;
+      }
+      .foot {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 30px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      .foot-links {
+        display: flex;
+        gap: 22px;
+        flex-wrap: wrap;
+      }
+      .foot-links a {
+        color: var(--muted);
+        font-weight: 600;
+        font-size: 14px;
+      }
+      /* Inline leaf in the footer note - scales with the surrounding type */
+      svg.i-inline {
+        width: 1.05em;
+        height: 1.05em;
+        vertical-align: -0.17em;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .foot-note {
+        color: var(--faint);
+        font-size: 13px;
+        text-align: center;
+        padding: 0 24px 30px;
+      }
+      @media (max-width: 560px) {
+        .tldr,
+        .fair {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="nav-inner">
+        <a class="brand" href="/" aria-label="Images Extractor home">
+          <img
+            src="/icons/icon128.png"
+            alt="Images Extractor logo"
+            width="32"
+            height="32"
+          />
+          <span>Images Extractor</span>
+        </a>
+        <a class="back" href="/">← Back to home</a>
+      </div>
+    </nav>
+
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="/">Images Extractor</a><span>/</span>Permissions Compared
+      </nav>
+
+      <header class="page">
+        <div class="eyebrow">Comparison</div>
+        <h1>Image extractor extension permissions, compared</h1>
+        <p class="lede">
+          Every image downloader asks for something. Some ask to read the tab you
+          are looking at; others ask to read every page you visit, forever. This
+          page sets out what each one actually requests - read from published
+          source, with a link to the evidence for every row.
+        </p>
+        <span class="updated">Verified 10 August 2026</span>
+      </header>
+
+      <main>
+        <div class="tldr">
+          <h2>The short version</h2>
+          <ul>
+            <li>
+              Most image extraction extensions request
+              <code>&lt;all_urls&gt;</code> - permanent read and write access to
+              every website you visit.
+            </li>
+            <li>
+              Images Extractor requests <code>activeTab</code> instead: the one
+              tab you are looking at, only at the moment you click the icon.
+            </li>
+            <li>
+              Broad access is not automatically sinister. It is usually the price
+              of bulk features - and this page says plainly where that trade-off
+              favours the others.
+            </li>
+            <li>
+              You can check any of this yourself in about a minute.
+              <a href="#verify">We show you how.</a>
+            </li>
+          </ul>
+        </div>
+
+        <section>
+          <h2>The comparison</h2>
+          <div class="panel">
+            <table>
+              <thead>
+                <tr>
+                  <th>Extension</th>
+                  <th>MV</th>
+                  <th>Site access</th>
+                  <th>Other notable permissions</th>
+                  <th>Evidence</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="self">
+                  <td><strong>Images Extractor</strong><br />(this one)</td>
+                  <td>3</td>
+                  <td>
+                    <span class="tag tag-narrow">activeTab</span><br />
+                    Current tab, on click only
+                  </td>
+                  <td>
+                    <code>scripting</code>, <code>downloads</code>,
+                    <code>clipboardWrite</code>
+                  </td>
+                  <td>
+                    <a
+                      href="https://github.com/aimelive/images-extractor/blob/main/manifest.json"
+                      target="_blank"
+                      rel="noopener"
+                      >manifest.json</a
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>Image Downloader</td>
+                  <td>—</td>
+                  <td>
+                    <span class="tag tag-broad">all site data</span><br />
+                    Per developer's own justification
+                  </td>
+                  <td>Not published</td>
+                  <td>
+                    <a
+                      href="https://chromewebstore.google.com/detail/image-downloader/cnpniohnfphhjihaiiggeabnkjhpaldj"
+                      target="_blank"
+                      rel="noopener"
+                      >Web Store listing</a
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>Mass Image Downloader</td>
+                  <td>3</td>
+                  <td>
+                    <span class="tag tag-broad">&lt;all_urls&gt;</span><br />
+                    Host access + content script on every page
+                  </td>
+                  <td>
+                    <code>tabs</code>, <code>storage</code>,
+                    <code>clipboardRead</code>, <code>downloads</code>,
+                    <code>scripting</code>
+                  </td>
+                  <td>
+                    <a
+                      href="https://github.com/del-Pacifico/Mass-Image-Downloader/blob/main/manifest.json"
+                      target="_blank"
+                      rel="noopener"
+                      >manifest.json</a
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>Pic-Grabber</td>
+                  <td>3</td>
+                  <td>
+                    <span class="tag tag-broad">&lt;all_urls&gt;</span><br />
+                    Host access + content script on every page
+                  </td>
+                  <td>
+                    <code>webRequest</code>, <code>tabs</code>,
+                    <code>sidePanel</code>, <code>storage</code>,
+                    <code>downloads</code>
+                  </td>
+                  <td>
+                    <a
+                      href="https://github.com/venopyX/pic-grabber/blob/main/manifest.json"
+                      target="_blank"
+                      rel="noopener"
+                      >manifest.json</a
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>Media Downloader</td>
+                  <td>3</td>
+                  <td>
+                    <span class="tag tag-broad">&lt;all_urls&gt;</span><br />
+                    Host access
+                  </td>
+                  <td>
+                    <code>sidePanel</code>, <code>contextMenus</code>,
+                    <code>storage</code>, <code>tabs</code>,
+                    <code>downloads</code>
+                  </td>
+                  <td>
+                    <a
+                      href="https://github.com/rtcoder/Media-downloader/blob/master/extension/manifest.json"
+                      target="_blank"
+                      rel="noopener"
+                      >manifest.json</a
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>Image Downloader Continued</td>
+                  <td>2</td>
+                  <td>
+                    <span class="tag tag-broad">&lt;all_urls&gt;</span><br />
+                    Listed directly in permissions
+                  </td>
+                  <td>
+                    <code>webNavigation</code>, <code>downloads</code>,
+                    <code>activeTab</code>
+                  </td>
+                  <td>
+                    <a
+                      href="https://github.com/kisdma/image-downloader-cnt/blob/master/manifest.json"
+                      target="_blank"
+                      rel="noopener"
+                      >manifest.json</a
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>Download All Images</td>
+                  <td>—</td>
+                  <td><span class="tag tag-unknown">not published</span></td>
+                  <td>Not published</td>
+                  <td>
+                    <a
+                      href="https://chromewebstore.google.com/detail/download-all-images/nnffbdeachhbpfapjklmpnmjcgamcdmm"
+                      target="_blank"
+                      rel="noopener"
+                      >Web Store listing</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note">
+            Rows marked <em>not published</em> are exactly that - the extension's
+            source is not public and its Web Store listing does not enumerate
+            permissions. We have left those cells empty rather than guess. See
+            <a href="#method">how this was verified</a>.
+          </p>
+        </section>
+
+        <section>
+          <h2>What <code>activeTab</code> actually means</h2>
+          <p>
+            The distinction that matters here is not how many permissions appear
+            in a list, but whether an extension can read pages you never asked it
+            to touch.
+          </p>
+          <p>
+            <code>activeTab</code> grants access to a single tab, and only when
+            you click the extension's icon. It expires when you navigate away.
+            The extension cannot see the tab before you click, cannot see your
+            other tabs, and cannot run anything in the background.
+          </p>
+          <p>
+            <code>&lt;all_urls&gt;</code> in <code>host_permissions</code> is
+            standing access to every site, granted once at install and lasting
+            until you remove the extension. Paired with a content script matching
+            <code>&lt;all_urls&gt;</code>, code runs on every page you load
+            whether or not you ever open the extension again. Chrome reflects this
+            at install time: <em>"Read and change all your data on all
+            websites."</em>
+          </p>
+          <p>
+            Two further permissions in the table are worth naming.
+            <code>clipboardRead</code> allows an extension to read what is
+            <em>on</em> your clipboard, which is a different and larger ask than
+            <code>clipboardWrite</code> - the write-only permission Images
+            Extractor uses. And <code>webRequest</code> allows observing your
+            network traffic.
+          </p>
+        </section>
+
+        <div class="fair">
+          <h2>In fairness to the others</h2>
+          <p>
+            A broad permission is not evidence of bad intent, and nothing on this
+            page should be read that way. Every extension listed above discloses
+            no data collection, and several are open source - which is precisely
+            why their manifests could be quoted here at all. That openness
+            deserves credit, not suspicion.
+          </p>
+          <p>
+            Broad access is usually the honest cost of broader features. Scanning
+            several tabs at once, crawling paginated galleries, filtering by
+            dimension, or zipping a hundred files genuinely cannot be done from a
+            single-tab, click-scoped permission. Those extensions ask for more
+            because they do more.
+          </p>
+          <p>
+            The point of this table is not that one design is virtuous and
+            another is not. It is that the trade-off should be visible before you
+            install, and right now it usually is not.
+          </p>
+        </div>
+
+        <section>
+          <h2>What Images Extractor gives up for this</h2>
+          <p>
+            A comparison that only flatters the author is not worth reading. The
+            narrow permission model has real costs, and here they are:
+          </p>
+          <ul>
+            <li>
+              <strong>No bulk download.</strong> There is no "download all as
+              ZIP". You save images one at a time. If you routinely need fifty
+              files at once, one of the extensions above will serve you better.
+            </li>
+            <li>
+              <strong>One tab at a time.</strong> No multi-tab scanning, no
+              gallery crawling, no following pagination.
+            </li>
+            <li>
+              <strong>No filtering or sorting.</strong> You get every image the
+              page exposes, in document order - no minimum-size filter, no
+              type-based exclusion.
+            </li>
+            <li>
+              <strong>Some images cannot be copied to the clipboard.</strong>
+              Without host permissions, reading an image's bytes depends on the
+              host allowing it. Where it does not, the copy-image action reports
+              that plainly and the URL, download, and open actions still work.
+              This is a direct consequence of not requesting broad access.
+            </li>
+          </ul>
+          <p>
+            If those limits do not affect how you work, the narrower permission
+            footprint is free. If they do, install something else - that is a
+            legitimate choice, and knowing why is the entire point.
+          </p>
+        </section>
+
+        <section id="verify">
+          <h2>Check any extension yourself in a minute</h2>
+          <p>
+            You do not have to trust this table. Both methods below work on any
+            extension you already have installed.
+          </p>
+          <h3>From Chrome's own UI</h3>
+          <ol>
+            <li>Open <code>chrome://extensions/</code>.</li>
+            <li>Find the extension and click <strong>Details</strong>.</li>
+            <li>
+              Read the <strong>Permissions</strong> and
+              <strong>Site access</strong> sections. "On all sites" means
+              standing access to everything you browse.
+            </li>
+          </ol>
+          <h3>From the extension's own manifest</h3>
+          <p>
+            Every installed extension keeps its <code>manifest.json</code> on
+            disk in plain text. On macOS, look under
+            <code>~/Library/Application Support/Google/Chrome/Default/Extensions/</code>,
+            then the extension's ID and version folder. Open
+            <code>manifest.json</code> and read the
+            <code>permissions</code>, <code>host_permissions</code>, and
+            <code>content_scripts</code> keys. That file is the authority - it is
+            what Chrome itself enforces, and it cannot be spun by a store
+            description.
+          </p>
+        </section>
+
+        <section id="method">
+          <h2>How this was verified</h2>
+          <p>
+            Every claim above comes from one of two sources, and the table says
+            which for each row:
+          </p>
+          <ol>
+            <li>
+              <strong>A published manifest.</strong> For the open-source
+              extensions, the <code>permissions</code>,
+              <code>host_permissions</code>, and <code>content_scripts</code>
+              keys were read directly from <code>manifest.json</code> in the
+              project's own repository. This is authoritative - it is the same
+              file Chrome enforces.
+            </li>
+            <li>
+              <strong>The developer's own Web Store disclosure.</strong> Where
+              source is not public, only what the developer states on their
+              listing is reported. Image Downloader's listing justifies its
+              access this way:
+              <blockquote>
+                "To extract photos from a webpage, Image Downloader must access
+                all content when the popup is activated. No data is sent off your
+                device."
+              </blockquote>
+            </li>
+          </ol>
+          <p>
+            Known limitations, stated plainly: this is not an exhaustive survey of
+            every image extension in the Web Store. It covers those whose
+            permissions could be established from primary sources on the
+            verification date. Extensions update, so a manifest read today may
+            differ tomorrow - the date at the top of this page is when each row
+            was last checked, and the evidence links let you re-check any of them
+            yourself.
+          </p>
+          <p>
+            Found a row that is wrong or out of date?
+            <a
+              href="https://github.com/aimelive/images-extractor/issues"
+              target="_blank"
+              rel="noopener"
+              >Open an issue</a
+            >
+            and it will be corrected. Accuracy here matters more than the
+            comparison being favourable.
+          </p>
+        </section>
+
+        <section>
+          <div class="cta">
+            <h2>Fewer permissions, same job</h2>
+            <p>
+              Extract, copy, and download every image on a page - without
+              granting access to every page you visit.
+            </p>
+            <a
+              href="https://images-extractor.netiiv.com/images-extractor.zip"
+              >⬇ Download Images Extractor</a
+            >
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <footer>
+      <div class="foot">
+        <a class="brand" href="/">
+          <img
+            src="/icons/icon128.png"
+            alt="Images Extractor logo"
+            width="30"
+            height="30"
+          />
+          <span>Images Extractor</span>
+        </a>
+        <div class="foot-links">
+          <a href="/#features">Features</a>
+          <a href="/#install">Install</a>
+          <a href="/#usage">How it works</a>
+          <a href="/#faq">FAQ</a>
+          <a href="/compare/">Compare</a>
+          <a href="/privacy/">Privacy</a>
+          <a
+            href="https://github.com/aimelive/images-extractor"
+            target="_blank"
+            rel="noopener"
+            >GitHub</a
+          >
+        </div>
+      </div>
+      <p class="foot-note">
+        Made with <svg class="i-inline" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.4 19.6c-.6-8.2 5.3-14.4 15.2-15 .6 9.9-5.6 15.7-15.2 15z"/><path d="M4.9 19.1C8.3 15.6 11.9 12.6 16 10.6"/></svg> by
+        <a href="https://github.com/aimelive" target="_blank" rel="noopener"
+          >aimelive</a
+        >
+        · Open source on GitHub
+      </p>
+    </footer>
+  </body>
+</html>

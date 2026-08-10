@@ -26,7 +26,7 @@
   --ink: #1b271f;
   --ink-soft: #3b4a40;
   --muted: #5f6f5d;
-  --faint: #8a9a84;
+  --faint: #647268; /* WCAG AA against both the card and toolbar backgrounds */
 
   /* Status */
   --danger: #b34a3e;
@@ -55,8 +55,18 @@ body {
   font-family:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
     Cantarell, sans-serif;
-  width: 600px;
-  max-height: 700px;
+  /* min-width is what Chrome sizes the popup from; width:100% makes the layout
+     fill the viewport if Chrome ever hands us a wider one. With a fixed width
+     the surplus showed html's background as dead space down the right side. */
+  min-width: 600px;
+  width: 100%;
+  /* Chrome caps a popup at 600px tall. Capping the document to the same height
+     and making it a flex column means the document itself never scrolls, so the
+     header and toolbar always stay put and only the results list scrolls. */
+  max-height: 600px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
 }
@@ -64,7 +74,9 @@ body {
 .app {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  /* min-height:0 lets the app shrink inside the capped body instead of
+     overflowing it; without it a flex item refuses to go below its content. */
+  min-height: 0;
   background: var(--bg);
   overflow: hidden;
 }
@@ -80,6 +92,9 @@ body {
   background: var(--brand-gradient);
   color: #fff;
   overflow: hidden;
+  /* Never let a long results list squeeze the chrome - as a flex item this
+     would otherwise shrink, and the header visibly lost height as images grew. */
+  flex-shrink: 0;
 }
 
 .app-header::after {
@@ -161,9 +176,8 @@ body {
 
 /* ===== Toolbar ===== */
 .toolbar {
-  position: sticky;
-  top: 0;
   z-index: 5;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -200,7 +214,8 @@ body {
 
 .skeleton-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  /* mirror the results grid so the layout doesn't jump when cards replace it */
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
   gap: 14px;
   width: 100%;
 }
@@ -242,6 +257,9 @@ body {
 .status__icon {
   width: 56px;
   height: 56px;
+  /* popup.js reveals these panels with display:block, which drops the parent's
+     flex centring - so centre the badge on its own. */
+  margin: 10px auto;
   border-radius: 16px;
   display: grid;
   place-items: center;
@@ -249,7 +267,20 @@ body {
   font-weight: 800;
 }
 
+/* The empty state uses an SVG; the error state is still a text glyph */
+.status__icon svg {
+  width: 27px;
+  height: 27px;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .status--empty .status__icon {
+  color: var(--brand-accent);
   background: var(--brand-soft);
 }
 
@@ -262,15 +293,33 @@ body {
   color: var(--danger);
 }
 
-/* ===== Results grid ===== */
-.images-list {
+/* ===== Results ===== */
+/* The scroll container and the grid are deliberately separate elements. Making
+   the grid itself the scroller gives it a definite height, and a grid with a
+   definite height cannot resolve the cards' aspect-ratio into an intrinsic row
+   height - it sized every row to 145px and squashed the previews. Kept apart,
+   the wrapper is the only thing that scrolls and the grid stays auto-height. */
+.images-scroll {
+  /* grow: 0 so a short list doesn't leave dead space; shrink: 1 + min-height: 0
+     so a long one shrinks to the space left by the header and toolbar and
+     scrolls inside it, instead of making the document scroll. */
+  flex: 0 1 auto;
+  min-height: 0;
   overflow-y: auto;
-  flex: 1;
-  max-height: 560px;
+  /* Reserve the scrollbar's width on BOTH edges. Without this it eats 10px from
+     the right only, leaving the grid visibly off-centre and shifting it the
+     moment the list starts to overflow. */
+  scrollbar-gutter: stable both-edges;
+}
+
+.images-list {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  /* auto-fill keeps 3 columns at the 600px default and adds a column instead of
+     stretching if the popup viewport is ever wider */
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  align-content: start;
   gap: 14px;
-  padding: 16px;
+  padding: 16px 6px;
 }
 
 /* ===== Card ===== */
@@ -399,9 +448,10 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  display: flex;
-  gap: 6px;
-  padding: 8px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+  padding: 7px;
   background: linear-gradient(
     to top,
     rgba(20, 32, 26, 0.8) 0%,
@@ -422,23 +472,27 @@ body {
 }
 
 .action-btn {
-  flex: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  font-size: 11.5px;
-  font-weight: 700;
+  height: 28px;
   color: var(--brand-solid);
   background: rgba(255, 255, 255, 0.95);
   border: none;
   border-radius: 8px;
-  padding: 7px 6px;
+  padding: 0;
   cursor: pointer;
   text-decoration: none;
   transition:
     background 0.15s ease,
+    color 0.15s ease,
     transform 0.12s ease;
+}
+
+.action-btn svg {
+  width: 15px;
+  height: 15px;
+  display: block;
 }
 
 .action-btn:hover {
@@ -447,7 +501,27 @@ body {
 }
 
 .action-btn:active {
-  transform: scale(0.96);
+  transform: scale(0.92);
+}
+
+.action-btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 1px;
+}
+
+/* Busy while an image is being fetched, encoded, or handed to the downloader */
+.action-btn.is-busy {
+  cursor: progress;
+}
+
+.action-btn.is-busy svg {
+  animation: btnPulse 0.9s ease-in-out infinite;
+}
+
+@keyframes btnPulse {
+  50% {
+    opacity: 0.35;
+  }
 }
 
 /* ===== Copy feedback ===== */
@@ -464,7 +538,9 @@ body {
   font-weight: 700;
   z-index: 10;
   pointer-events: none;
-  white-space: nowrap;
+  max-width: calc(100% - 16px);
+  text-align: center;
+  text-wrap: balance;
   box-shadow: 0 8px 22px rgba(28, 40, 30, 0.3);
   backdrop-filter: blur(4px);
 }
@@ -523,20 +599,22 @@ body {
 }
 
 /* ===== Scrollbar ===== */
-.images-list::-webkit-scrollbar {
+.images-scroll::-webkit-scrollbar {
   width: 10px;
 }
 
-.images-list::-webkit-scrollbar-track {
+.images-scroll::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.images-list::-webkit-scrollbar-thumb {
-  background: #bccaa6;
+/* A 3px inset on a 10px bar left only 4px of visible thumb, which read as
+   dead space rather than a control. 2px keeps the inset look but stays legible. */
+.images-scroll::-webkit-scrollbar-thumb {
+  background: #b3c49a;
   border-radius: 999px;
-  border: 3px solid var(--bg);
+  border: 2px solid var(--bg);
 }
 
-.images-list::-webkit-scrollbar-thumb:hover {
-  background: #a7b78f;
+.images-scroll::-webkit-scrollbar-thumb:hover {
+  background: #9fb283;
 }

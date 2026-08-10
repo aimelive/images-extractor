@@ -228,6 +228,53 @@ function extractImagesFromPage() {
   return favicons.concat(images);
 }
 
+// Inline icons for the card action bar (16px, stroked with currentColor)
+const ICONS = {
+  link: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.07 0l2.12-2.12a5 5 0 0 0-7.07-7.07l-1.06 1.06"/><path d="M14 11a5 5 0 0 0-7.07 0l-2.12 2.12a5 5 0 0 0 7.07 7.07l1.06-1.06"/></svg>',
+  picture:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="8.5" cy="9.5" r="1.6"/><path d="M21 16.5l-4.6-4.6a1.6 1.6 0 0 0-2.3 0L4 20"/></svg>',
+  download:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v11"/><path d="M7.5 10.5 12 15l4.5-4.5"/><path d="M4 18.5v.5A2 2 0 0 0 6 21h12a2 2 0 0 0 2-2v-.5"/></svg>',
+  open: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4l-8.5 8.5"/><path d="M18 14.5V18a2.5 2.5 0 0 1-2.5 2.5H6A2.5 2.5 0 0 1 3.5 18V8.5A2.5 2.5 0 0 1 6 6h3.5"/></svg>',
+};
+
+// Build one icon-only action button (an <a> when it has an href)
+function createActionButton({ icon, label, href, onClick }) {
+  const el = document.createElement(href ? "a" : "button");
+  el.className = "action-btn";
+  el.innerHTML = icon;
+  el.title = label;
+  el.setAttribute("aria-label", label);
+
+  if (href) {
+    el.href = href;
+    el.target = "_blank";
+    el.rel = "noopener noreferrer";
+    el.addEventListener("click", (e) => e.stopPropagation());
+  } else {
+    el.type = "button";
+    el.addEventListener("click", (e) => {
+      e.stopPropagation();
+      onClick(el);
+    });
+  }
+
+  return el;
+}
+
+// Run an async action while the button shows a busy state, ignoring re-clicks
+async function withBusy(button, task) {
+  if (button.classList.contains("is-busy")) return;
+  button.classList.add("is-busy");
+  button.disabled = true;
+  try {
+    await task();
+  } finally {
+    button.classList.remove("is-busy");
+    button.disabled = false;
+  }
+}
+
 // Create image card element
 function createImageCard(img, index) {
   const card = document.createElement("div");
@@ -254,7 +301,7 @@ function createImageCard(img, index) {
 
   // Click thumbnail to copy URL
   imgElement.addEventListener("click", () => {
-    copyImageToClipboard(img.src, card);
+    copyImageUrl(img.src, card);
   });
 
   // Handle image load error
@@ -267,31 +314,32 @@ function createImageCard(img, index) {
     previewContainer.appendChild(errorDiv);
   };
 
-  // Hover action bar: Copy + Open
+  // Hover action bar: Copy URL + Copy image + Download + Open
   const actions = document.createElement("div");
   actions.className = "card-actions";
 
-  const copyBtn = document.createElement("button");
-  copyBtn.type = "button";
-  copyBtn.className = "action-btn";
-  copyBtn.innerHTML = "⧉ Copy";
-  copyBtn.title = "Copy image URL";
-  copyBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    copyImageToClipboard(img.src, card);
-  });
-
-  const openBtn = document.createElement("a");
-  openBtn.className = "action-btn";
-  openBtn.href = img.src;
-  openBtn.target = "_blank";
-  openBtn.rel = "noopener noreferrer";
-  openBtn.innerHTML = "↗ Open";
-  openBtn.title = "Open image in a new tab";
-  openBtn.addEventListener("click", (e) => e.stopPropagation());
-
-  actions.appendChild(copyBtn);
-  actions.appendChild(openBtn);
+  [
+    {
+      icon: ICONS.link,
+      label: "Copy image URL",
+      onClick: () => copyImageUrl(img.src, card),
+    },
+    {
+      icon: ICONS.picture,
+      label: "Copy image to clipboard",
+      onClick: (btn) => copyImageToClipboard(img.src, card, btn),
+    },
+    {
+      icon: ICONS.download,
+      label: "Download image",
+      onClick: (btn) => downloadImage(img.src, card, btn),
+    },
+    {
+      icon: ICONS.open,
+      label: "Open image in a new tab",
+      href: img.src,
+    },
+  ].forEach((def) => actions.appendChild(createActionButton(def)));
 
   previewContainer.appendChild(imgElement);
   previewContainer.appendChild(actions);
@@ -341,12 +389,13 @@ function getImageLabel(url) {
 }
 
 // Copy image URL to clipboard
-async function copyImageToClipboard(imageUrl, cardElement) {
+async function copyImageUrl(imageUrl, cardElement) {
+  const previewContainer = cardElement.querySelector(
+    ".image-preview-container"
+  );
+
   try {
     // Show copying feedback
-    const previewContainer = cardElement.querySelector(
-      ".image-preview-container"
-    );
     const originalOpacity = previewContainer.style.opacity;
     previewContainer.style.opacity = "0.6";
     previewContainer.style.transition = "opacity 0.2s";
@@ -355,20 +404,149 @@ async function copyImageToClipboard(imageUrl, cardElement) {
     await navigator.clipboard.writeText(imageUrl);
 
     // Show success feedback
-    showCopyFeedback(cardElement, true);
+    showFeedback(cardElement, "✓ URL copied!");
     previewContainer.style.opacity = originalOpacity || "1";
   } catch (error) {
     console.error("Error copying image URL to clipboard:", error);
-    showCopyFeedback(cardElement, false);
-    const previewContainer = cardElement.querySelector(
-      ".image-preview-container"
-    );
+    showFeedback(cardElement, "✗ Failed to copy", "error");
     previewContainer.style.opacity = "1";
   }
 }
 
-// Show copy feedback message
-function showCopyFeedback(cardElement, success) {
+// Copy the image itself (not its URL) to the clipboard
+async function copyImageToClipboard(imageUrl, cardElement, button) {
+  await withBusy(button, async () => {
+    try {
+      const dataUrl = await fetchImageAsDataUrl(imageUrl);
+      const pngBlob = await toPngBlob(dataUrl);
+      await navigator.clipboard.write([
+        new ClipboardItem({ "image/png": pngBlob }),
+      ]);
+      showFeedback(cardElement, "✓ Image copied!");
+    } catch (error) {
+      console.error("Error copying image to clipboard:", error);
+      showFeedback(cardElement, "✗ Can't copy this image", "error");
+    }
+  });
+}
+
+// Download the image via its URL
+async function downloadImage(imageUrl, cardElement, button) {
+  await withBusy(button, async () => {
+    try {
+      const filename = getDownloadFilename(imageUrl);
+      await chrome.downloads.download({
+        url: imageUrl,
+        ...(filename ? { filename } : {}),
+      });
+      showFeedback(cardElement, "✓ Downloading…");
+    } catch (error) {
+      console.error("Error downloading image:", error);
+      showFeedback(cardElement, "✗ Download failed", "error");
+    }
+  });
+}
+
+// Read an image's bytes as a data URL.
+// The popup is tried first (works when the host sends CORS headers), then the
+// page itself, which can always read images served from its own origin.
+async function fetchImageAsDataUrl(imageUrl) {
+  try {
+    const response = await fetch(imageUrl, { credentials: "omit" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const blob = await response.blob();
+    if (!blob.size) throw new Error("Empty response");
+    return await blobToDataUrl(blob);
+  } catch (error) {
+    return await fetchImageAsDataUrlFromPage(imageUrl);
+  }
+}
+
+function blobToDataUrl(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(reader.error || new Error("Read failed"));
+    reader.readAsDataURL(blob);
+  });
+}
+
+// Ask the active tab to fetch the image for us, using the page's own origin
+async function fetchImageAsDataUrlFromPage(imageUrl) {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  if (!tab || !tab.id) throw new Error("No active tab found");
+
+  const results = await chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    args: [imageUrl],
+    function: fetchImageAsDataUrlInPage,
+  });
+
+  const dataUrl = results[0]?.result;
+  if (!dataUrl) throw new Error("Image is not readable from this page");
+  return dataUrl;
+}
+
+// Runs in the page context; resolves to null when the request is blocked
+function fetchImageAsDataUrlInPage(imageUrl) {
+  return fetch(imageUrl, { credentials: "include" })
+    .then((response) => {
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return response.blob();
+    })
+    .then(
+      (blob) =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = () => reject(reader.error);
+          reader.readAsDataURL(blob);
+        })
+    )
+    .catch(() => null);
+}
+
+// The clipboard only accepts PNG, so re-encode whatever we fetched via a canvas
+async function toPngBlob(dataUrl) {
+  const image = new Image();
+  image.src = dataUrl;
+  await image.decode();
+
+  // SVGs without an intrinsic size report 0 - give them a sensible canvas
+  const width = image.naturalWidth || 512;
+  const height = image.naturalHeight || 512;
+
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  canvas.getContext("2d").drawImage(image, 0, 0, width, height);
+
+  return await new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      blob ? resolve(blob) : reject(new Error("PNG encoding failed"));
+    }, "image/png");
+  });
+}
+
+// Derive a safe download filename, or undefined to let Chrome pick one
+function getDownloadFilename(imageUrl) {
+  const imageExtension = /\.(png|jpe?g|gif|webp|avif|svg|bmp|ico|tiff?)$/i;
+
+  try {
+    const file = decodeURIComponent(
+      new URL(imageUrl).pathname.split("/").filter(Boolean).pop() || ""
+    );
+    const safe = file.replace(/[\\/:*?"<>|]+/g, "-").trim().slice(-120);
+    if (imageExtension.test(safe)) return safe;
+  } catch (e) {
+    // Fall through and let Chrome derive the name from the response
+  }
+
+  return undefined;
+}
+
+// Show feedback message over the card preview
+function showFeedback(cardElement, message, variant = "success") {
   // Remove any existing feedback
   const existingFeedback = cardElement.querySelector(".copy-feedback");
   if (existingFeedback) {
@@ -376,8 +554,8 @@ function showCopyFeedback(cardElement, success) {
   }
 
   const feedback = document.createElement("div");
-  feedback.className = `copy-feedback ${success ? "success" : "error"}`;
-  feedback.textContent = success ? "✓ URL copied!" : "✗ Failed to copy";
+  feedback.className = `copy-feedback ${variant}`;
+  feedback.textContent = message;
 
   const previewContainer = cardElement.querySelector(
     ".image-preview-container"

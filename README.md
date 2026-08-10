@@ -7,11 +7,15 @@ A powerful Chrome extension that extracts and displays all images from any webpa
 - **🔍 Extract All Images** - Automatically finds all images on the current webpage
 - **👁️ Visual Grid View** - Beautiful responsive grid layout with image previews
 - **📋 Copy Image URLs** - Click any image to instantly copy its URL to clipboard
+- **🖼️ Copy Image** - Copy the picture itself to the clipboard as a PNG, ready to paste anywhere
+- **⬇️ Download Image** - Save any image to your Downloads folder in one click
 - **📊 Image Details** - View image dimensions and other metadata
 - **🔗 Direct Links** - Open images in new tabs with one click
 - **🔄 Refresh Support** - Re-extract images anytime with the refresh button
 - **🎨 Modern UI** - Clean, intuitive interface with smooth animations
 - **⚡ Fast & Lightweight** - Quick extraction and minimal resource usage
+
+**Website:** [images-extractor.netiiv.com](https://images-extractor.netiiv.com/)
 
 ## 📦 Installation
 
@@ -19,7 +23,7 @@ A powerful Chrome extension that extracts and displays all images from any webpa
 
 1. **Download the Extension**
 
-   - Download the ZIP file: [images-extractor.zip](https://github.com/aimelive/images-extractor/raw/refs/heads/main/images-extractor.zip)
+   - Download the ZIP file: [images-extractor.zip](https://images-extractor.netiiv.com/images-extractor.zip)
    - Extract the ZIP file to a folder on your computer
 
 2. **Open Chrome Extensions Page**
@@ -50,7 +54,7 @@ A powerful Chrome extension that extracts and displays all images from any webpa
 2. **Click the Images Extractor icon** in your Chrome toolbar
 3. **View all images** displayed in a beautiful grid layout
 4. **Click any image** to copy its URL to your clipboard
-5. **Click the image URL link** to open the full image in a new tab
+5. **Hover a card** to copy the URL, copy the image itself, download it, or open it in a new tab
 
 ### Step-by-Step Guide
 
@@ -74,12 +78,23 @@ A powerful Chrome extension that extracts and displays all images from any webpa
 - You'll see a confirmation message: **"✓ URL copied!"**
 - Paste the URL anywhere (browser, text editor, etc.)
 
-#### Step 4: Open Full Image
+#### Step 4: Use the Card Actions
+
+Hover any card to reveal four icon actions:
+
+| Icon | Action        | What it does                                                              |
+| ---- | ------------- | ------------------------------------------------------------------------- |
+| 🔗   | Copy URL      | Copies the image's URL to your clipboard                                  |
+| 🖼️   | Copy image    | Copies the picture itself as a PNG, ready to paste into Figma, Slides, etc. |
+| ⬇️   | Download      | Saves the image to your Downloads folder using its original filename       |
+| ↗    | Open new tab  | Opens the full-size image in a new browser tab                            |
+
+#### Step 5: Open Full Image
 
 - Click the **image URL link** below any image
 - The full-size image will open in a new browser tab
 
-#### Step 5: Refresh Images
+#### Step 6: Refresh Images
 
 - Click the **"Refresh"** button to re-extract images from the page
 - Useful if the page content has changed or images have loaded dynamically
@@ -126,6 +141,8 @@ The extension requires minimal permissions:
 
 - **`activeTab`** - To access the current tab's content
 - **`scripting`** - To extract images from the page
+- **`downloads`** - To save an image to your Downloads folder
+- **`clipboardWrite`** - To copy a URL or an image to your clipboard
 
 ### Browser Compatibility
 
@@ -141,7 +158,11 @@ The extension requires minimal permissions:
 
 ### Q: Can I download images directly?
 
-**A:** Currently, the extension copies image URLs. You can open images in new tabs and download them from there, or use the URL with a download manager.
+**A:** Yes. Hover any image card and click the **download** icon - the image is saved straight to your Downloads folder using its original filename.
+
+### Q: Can I copy the image itself instead of its URL?
+
+**A:** Yes. The **copy image** action puts the actual picture on your clipboard as a PNG, so you can paste it directly into Figma, Slides, Word, or a chat app. A small number of images are locked down by their host and can't be read - for those you'll see a **"✗ Can't copy this image"** notice, and download or open in a new tab still works.
 
 ### Q: Does the extension work on all websites?
 
@@ -195,6 +216,14 @@ The extension requires minimal permissions:
 
 ## 📝 Changelog
 
+### Version 1.1.0
+
+- **Copy Image** - copy the picture itself to the clipboard as a PNG
+- **Download Image** - save an image to the Downloads folder in one click
+- Card actions redesigned as four compact icon buttons with tooltips
+- New `downloads` and `clipboardWrite` permissions to support the above
+- Site moved to [images-extractor.netiiv.com](https://images-extractor.netiiv.com/)
+
 ### Version 1.0.0
 
 - Initial release
@@ -218,7 +247,10 @@ This project is open source and available for use.
 
 ## 🔗 Links
 
-- **Download Extension:** [images-extractor.zip](https://github.com/aimelive/images-extractor/raw/refs/heads/main/images-extractor.zip)
+- **Website:** [images-extractor.netiiv.com](https://images-extractor.netiiv.com/)
+- **Permissions compared:** [how this extension's site access compares to others](https://images-extractor.netiiv.com/compare/)
+- **Privacy Policy:** [images-extractor.netiiv.com/privacy](https://images-extractor.netiiv.com/privacy/)
+- **Download Extension:** [images-extractor.zip](https://images-extractor.netiiv.com/images-extractor.zip)
 - **GitHub Repository:** [aimelive/images-extractor](https://github.com/aimelive/images-extractor)
 
 ## 💡 Tips & Tricks
